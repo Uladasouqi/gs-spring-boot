@@ -26,6 +26,8 @@ pipeline {
                     http://localhost:8081/repository/maven-releasesUla/
                     """
                 }
+                // test trigger
+
             }
         }
     }
