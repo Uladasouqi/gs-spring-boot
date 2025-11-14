@@ -28,7 +28,7 @@ pipeline {
                         sh """
                             curl -v -u $NEXUS_USER:$NEXUS_PASS \
                             --upload-file *.jar \
-                            http://localhost:8081/repository/maven-releasesUla/
+                            http://localhost:8081/repository/maven-ula/
                         """
                     }
                 }
