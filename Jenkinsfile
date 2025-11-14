@@ -4,13 +4,17 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'mvn -B -DskipTests clean package'
+                dir('initial') {
+                    sh 'mvn -B -DskipTests clean package'
+                }
             }
         }
 
         stage('Test') {
             steps {
-                sh 'mvn test'
+                dir('initial') {
+                    sh 'mvn test'
+                }
             }
         }
 
@@ -20,14 +24,14 @@ pipeline {
                         usernameVariable: 'NEXUS_USER',
                         passwordVariable: 'NEXUS_PASS')]) {
 
-                    sh """
-                    curl -v -u $NEXUS_USER:$NEXUS_PASS \
-                    --upload-file target/*.jar \
-                    http://localhost:8081/repository/maven-releasesUla/
-                    """
+                    dir('initial/target') {
+                        sh """
+                            curl -v -u $NEXUS_USER:$NEXUS_PASS \
+                            --upload-file *.jar \
+                            http://localhost:8081/repository/maven-releasesUla/
+                        """
+                    }
                 }
-                // test trigger
-
             }
         }
     }
